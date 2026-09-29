@@ -121,3 +121,34 @@ With reference to the tables created in Problem 1, analyze the query and propose
 Explain your reasoning behind choosing the specific column(s) for the index(es) and how they would enhance the execution of the query. Consider the selectivity of the columns, the order of the conditions, and any other factors that may impact the query performance.
 
 **Bonus**: Discuss any potential trade-offs or drawbacks of implementing the suggested index(es), such as increased storage space or impact on write operations.
+
+---
+
+## My Solution
+
+### SQL dialect
+
+All solutions are written for **MariaDB 10.4** (MySQL-compatible) and tested in XAMPP phpMyAdmin. The instructions allow any SQL dialect; I chose MySQL/MariaDB because it is the dialect I have hands-on experience with and can explain confidently.
+
+The question's column types are mapped to MySQL types:
+
+| Question | MySQL |
+|---|---|
+| integer | INT |
+| text | VARCHAR(n) |
+| numeric | DECIMAL(10,2) |
+| date | DATE |
+
+### How to run
+
+1. Create an empty database, e.g. `CREATE DATABASE asd_sql;`
+2. Run `src/p1.sql` first. It creates the tables and inserts the dummy data, and can be re-run at any time to reset the data.
+3. Run any of `src/p2.sql` to `src/p8.sql`. Each file contains the main answer, the bonus answer, and the expected result in comments.
+
+**Note:** `p4.sql` (update prices) and `p7.sql` (delete customers) change the data. Re-run `p1.sql` after them so the other files return the expected results. `p8.sql` creates an index, so re-run `p1.sql` before running it a second time.
+
+### Design decisions
+
+- **sales table:** `sales` stores the items within each order (one row per product per order), with a composite primary key `(order_id, product_id)` and a foreign key to `orders`. `sales.customer_id` and `sale_date` duplicate data already in `orders`; they are kept to match the given design, but a more normalised design would remove them.
+- **Foreign keys use `ON DELETE RESTRICT`:** a customer with orders cannot be deleted by accident. Problem 7's bonus deletes the related records explicitly, inside a transaction.
+- **Dummy data** is chosen to test the later problems, for example a salary tie in Engineering (Problem 5), a salary of exactly 50,000 (Problem 6), and a customer with no orders (Problem 7).
