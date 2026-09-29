@@ -27,7 +27,7 @@ SET     price = (price*1.1);
 /*
 Expected: 6 rows affected.
 product_id | product_name   | before  | after
-1          | Laptop         | 1100.00 | 1210.00
+1          | Laptop         |  800.00 |  880.00
 2          | Wireless Mouse |   25.00 |   27.50
 3          | Keyboard       |   45.00 |   49.50
 4          | Monitor        |  300.00 |  330.00
